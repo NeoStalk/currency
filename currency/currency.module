@@ -1,0 +1,180 @@
+<?php
+
+define("CBR_URL", "http://cbr.ru/scripts/XML_daily.asp");
+
+
+/**
+ * Implements hook_menu().
+ */
+function currency_menu() {
+
+  $items = array();
+  $items['currency/import'] = array(
+    'title' => 'Импорт курсов валют',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_data_import_form'),
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => array('currency page access'),
+    'weight' => 10,
+  );
+  return $items;
+}
+
+/**
+ * Implements currency_data_import_form().
+ */
+function currency_data_import_form($form, &$form_state) {
+
+  $yyyymd = format_date(REQUEST_TIME, 'custom', 'Y-m-d');
+  $date = date('Y-m-d', strtotime($yyyymd));
+  $form = array();
+
+  $form['date'] = array(
+    '#date_format' => 'd/m/Y',
+    '#type' => 'date_popup',
+    '#title' => 'Дата',
+    '#default_value' => $date,
+    '#weight' => 1,
+    '#date_year_range' => (date('Y')) . ':+5',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Импортировать'),
+    '#weight' => 2,
+    '#submit' => array('currency_data_import_submit'),
+  );
+  return $form;
+}
+
+/**
+ * Implements currency_data_import_submit().
+ */
+function currency_data_import_submit($form, &$form_state) {
+  $date = date_format(date_create($form_state['values']['date']), 'd/m/Y');
+  $json_data = currency_json_data_import($date);
+  currency_create_currency_store($json_data);
+}
+
+
+/**
+ * Implements currency_data_import_submit().
+ */
+function currency_json_data_import($date) {
+
+  $options = array (
+    'date_req' => $date,
+  );
+
+  $full_url = url(CBR_URL, array('query' => $options));
+  $response = drupal_http_request($full_url);
+
+  if ($response->code == "200") {
+    $data = new SimpleXMLElement($response->data);
+    $json_data = drupal_json_decode(drupal_json_encode($data));
+  }
+  return $json_data;
+}
+
+/**
+ * Implements currency_create_currency_store().
+ */
+function currency_create_currency_store($json_data) {
+
+  $query = "SELECT title FROM {node} WHERE title = :t ";
+  $query_result = db_query($query, array(':t' => 'Курсы валют за ' . $json_data['@attributes']['Date']));
+  if (!$query_result->fetchObject()) {
+    global $user;
+    $values = array(
+      'type' => 'currency',
+      'uid' => $user->uid,
+      'status' => 1,
+      'comment' => 0,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $wrapper->title = 'Курсы валют за ' . $json_data['@attributes']['Date'];
+    $wrapper->field_date = strtotime($json_data['@attributes']['Date']);
+    $collections_items = array();
+    foreach ($json_data['Valute'] as $item) {
+      $field_collection = entity_create('field_collection_item', array('field_name' => 'field_currency_rates'));
+      $field_collection->setHostEntity('node', $entity, $entity->language, FALSE);
+      $field_collection->save();
+      $field_collection_wrapper = entity_metadata_wrapper('field_collection_item', $field_collection);
+      $field_collection_wrapper->field_charcode = $item['CharCode'];
+      $field_collection_wrapper->field_value = floatval(str_replace(',', '.', $item['Value']));
+      $field_collection_wrapper->field_currency_name = $item['Name'];
+      $field_collection_wrapper->field_nominal = intval($item['Nominal']);
+      $field_collection_wrapper->save();
+      $collections_items[] = $field_collection;
+    }
+    $wrapper->field_currency_rates = $collections_items;
+    $wrapper->save();
+    drupal_set_message('Данные о курсах валют успешно импортированны.', 'status');
+  }
+
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function currency_form_alter(&$form, &$form_state, $form_id) {
+
+  if (($form['#id'] == 'views-exposed-form-currency-rate-page') || ($form['#id'] == 'views-exposed-form-currency-rate-page-1')) {
+    $form['field_charcode_value'] = array(
+      '#type' => 'select',
+      '#options' => array(
+        '' => '',
+        'AUD' => 'Австралийский доллар',
+        'AZN' => 'Азербайджанский манат',
+        'BYN' => 'Белорусский рубль',
+        'BGN' => 'Болгарский лев',
+        'BRL' => 'Бразильский реал',
+        'HUF' => 'Венгерских форинтов',
+        'KRW' => 'Вон Республики Корея',
+        'HKD' => 'Гонконгских долларов',
+        'DKK' => 'Датская крона',
+        'USD' => 'Доллар США',
+        'EUR' => 'Евро',
+        'INR' => 'Индийских рупий',
+        'KZT' => 'Казахстанских тенге',
+        'CAD' => 'Канадский доллар',
+        'KGS' => 'Киргизских сомов',
+        'CNY' => 'Китайский юань',
+        'MDL' => 'Молдавских леев',
+        'TMT' => 'Новый туркменский манат',
+        'NOK' => 'Норвежских крон',
+        'PLN' => 'Польский злотый',
+        'RON' => 'Румынский лей',
+        'XDR' => 'СДР (специальные права заимствования)',
+        'SGD' => 'Сингапурский доллар',
+        'TJS' => 'Таджикских сомони',
+        'TRY' => 'Турецкая лира',
+        'UZS' => 'Узбекских сумов',
+        'UAH' => 'Украинских гривен',
+        'GBP' => 'Фунт стерлингов Соединенного королевства',
+        'CZK' => 'Чешских крон',
+        'SEK' => 'Шведских крон',
+        'CHF' => 'Швейцарский франк',
+        'ZAR' => 'Южноафриканских рэндов',
+        'JPY'	=> 'Японских иен',
+      ),
+      '#default_value' => '',
+    );
+  }
+
+}
+
+/**
+ * Implements hook_cron().
+ */
+function currency_cron() {
+
+  watchdog('currency', 'currency data import ran');
+  $date = format_date(REQUEST_TIME, 'custom', 'd/m/Y');
+  $json_data = currency_json_data_import($date);
+  currency_create_currency_store($json_data);
+  watchdog('currency', 'currency data import stop');
+
+}
