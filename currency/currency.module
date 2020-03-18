@@ -113,6 +113,9 @@ function currency_create_currency_store($json_data) {
     $wrapper->save();
     drupal_set_message('Данные о курсах валют успешно импортированны.', 'status');
   }
+  else {
+    drupal_set_message('Данные о курсах валют за ' . $json_data['@attributes']['Date'] . ' ранее были уже импортированны.', 'warning');
+  }
 
 }
 
