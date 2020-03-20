@@ -21,6 +21,17 @@ function currency_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function currency_permission() {
+  return array(
+    'currency page access' => array(
+      'title' => t('Доступ к странице Импорт курсов валют.'),
+    ),
+  );
+}
+
+/**
  * Implements currency_data_import_form().
  */
 function currency_data_import_form($form, &$form_state) {
@@ -53,7 +64,9 @@ function currency_data_import_form($form, &$form_state) {
 function currency_data_import_submit($form, &$form_state) {
   $date = date_format(date_create($form_state['values']['date']), 'd/m/Y');
   $json_data = currency_json_data_import($date);
-  currency_create_currency_store($json_data);
+  if ($json_data) {
+    currency_create_currency_store($json_data);
+  }
 }
 
 
@@ -68,12 +81,11 @@ function currency_json_data_import($date) {
 
   $full_url = url(CBR_URL, array('query' => $options));
   $response = drupal_http_request($full_url);
-
   if ($response->code == "200") {
     $data = new SimpleXMLElement($response->data);
     $json_data = drupal_json_decode(drupal_json_encode($data));
+    return $json_data;
   }
-  return $json_data;
 }
 
 /**
