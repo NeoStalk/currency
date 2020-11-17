@@ -1,0 +1,509 @@
+$view = new view();
+$view->name = 'currency_rate';
+$view->description = '';
+$view->tag = 'default';
+$view->base_table = 'node';
+$view->human_name = 'Курсы валют';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['title'] = 'Динамика курсов валют';
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['access']['type'] = 'perm';
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['pager']['options']['items_per_page'] = '34';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['pager']['options']['id'] = '0';
+$handler->display->display_options['pager']['options']['quantity'] = '9';
+$handler->display->display_options['style_plugin'] = 'table';
+$handler->display->display_options['style_options']['columns'] = array(
+  'title' => 'title',
+  'field_currency_rates' => 'field_currency_rates',
+  'field_date' => 'field_date',
+  'field_charcode' => 'field_charcode',
+  'field_value' => 'field_value',
+  'field_currency_name' => 'field_currency_name',
+  'field_nominal' => 'field_nominal',
+);
+$handler->display->display_options['style_options']['class'] = '';
+$handler->display->display_options['style_options']['default'] = '-1';
+$handler->display->display_options['style_options']['info'] = array(
+  'title' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_currency_rates' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_date' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_charcode' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_value' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_currency_name' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_nominal' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+);
+/* Relationship: Content: Currency Rates (field_currency_rates) */
+$handler->display->display_options['relationships']['field_currency_rates_value']['id'] = 'field_currency_rates_value';
+$handler->display->display_options['relationships']['field_currency_rates_value']['table'] = 'field_data_field_currency_rates';
+$handler->display->display_options['relationships']['field_currency_rates_value']['field'] = 'field_currency_rates_value';
+$handler->display->display_options['relationships']['field_currency_rates_value']['required'] = TRUE;
+$handler->display->display_options['relationships']['field_currency_rates_value']['delta'] = '-1';
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['exclude'] = TRUE;
+$handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+$handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+/* Field: Content: Currency Rates */
+$handler->display->display_options['fields']['field_currency_rates']['id'] = 'field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['table'] = 'field_data_field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['field'] = 'field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_currency_rates']['type'] = 'field_collection_fields';
+$handler->display->display_options['fields']['field_currency_rates']['settings'] = array(
+  'view_mode' => 'full',
+);
+$handler->display->display_options['fields']['field_currency_rates']['delta_offset'] = '0';
+/* Field: Content: Date */
+$handler->display->display_options['fields']['field_date']['id'] = 'field_date';
+$handler->display->display_options['fields']['field_date']['table'] = 'field_data_field_date';
+$handler->display->display_options['fields']['field_date']['field'] = 'field_date';
+$handler->display->display_options['fields']['field_date']['settings'] = array(
+  'format_type' => 'custom',
+  'custom_date_format' => 'd-m-Y',
+  'fromto' => 'both',
+  'multiple_number' => '',
+  'multiple_from' => '',
+  'multiple_to' => '',
+  'show_remaining_days' => 0,
+);
+/* Field: Field collection item: CharCode */
+$handler->display->display_options['fields']['field_charcode']['id'] = 'field_charcode';
+$handler->display->display_options['fields']['field_charcode']['table'] = 'field_data_field_charcode';
+$handler->display->display_options['fields']['field_charcode']['field'] = 'field_charcode';
+$handler->display->display_options['fields']['field_charcode']['relationship'] = 'field_currency_rates_value';
+/* Field: Field collection item: Value */
+$handler->display->display_options['fields']['field_value']['id'] = 'field_value';
+$handler->display->display_options['fields']['field_value']['table'] = 'field_data_field_value';
+$handler->display->display_options['fields']['field_value']['field'] = 'field_value';
+$handler->display->display_options['fields']['field_value']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['fields']['field_value']['settings'] = array(
+  'thousand_separator' => '',
+  'decimal_separator' => '.',
+  'scale' => '4',
+  'prefix_suffix' => 1,
+);
+/* Field: Field collection item: Currency Name */
+$handler->display->display_options['fields']['field_currency_name']['id'] = 'field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['table'] = 'field_data_field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['field'] = 'field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['relationship'] = 'field_currency_rates_value';
+/* Field: Field collection item: Номинал */
+$handler->display->display_options['fields']['field_nominal']['id'] = 'field_nominal';
+$handler->display->display_options['fields']['field_nominal']['table'] = 'field_data_field_nominal';
+$handler->display->display_options['fields']['field_nominal']['field'] = 'field_nominal';
+$handler->display->display_options['fields']['field_nominal']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['fields']['field_nominal']['settings'] = array(
+  'thousand_separator' => '',
+  'prefix_suffix' => 1,
+);
+/* Sort criterion: Content: Date (field_date) */
+$handler->display->display_options['sorts']['field_date_value']['id'] = 'field_date_value';
+$handler->display->display_options['sorts']['field_date_value']['table'] = 'field_data_field_date';
+$handler->display->display_options['sorts']['field_date_value']['field'] = 'field_date_value';
+/* Sort criterion: Field collection item: Currency Name (field_currency_name) */
+$handler->display->display_options['sorts']['field_currency_name_value']['id'] = 'field_currency_name_value';
+$handler->display->display_options['sorts']['field_currency_name_value']['table'] = 'field_data_field_currency_name';
+$handler->display->display_options['sorts']['field_currency_name_value']['field'] = 'field_currency_name_value';
+$handler->display->display_options['sorts']['field_currency_name_value']['relationship'] = 'field_currency_rates_value';
+/* Filter criterion: Content: Published status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Date (field_date) */
+$handler->display->display_options['filters']['field_date_value']['id'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['table'] = 'field_data_field_date';
+$handler->display->display_options['filters']['field_date_value']['field'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_date_value']['expose']['operator_id'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['label'] = 'Дата';
+$handler->display->display_options['filters']['field_date_value']['expose']['operator'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['identifier'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_date_value']['form_type'] = 'date_popup';
+/* Filter criterion: Field collection item: CharCode (field_charcode) */
+$handler->display->display_options['filters']['field_charcode_value']['id'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['table'] = 'field_data_field_charcode';
+$handler->display->display_options['filters']['field_charcode_value']['field'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['filters']['field_charcode_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator_id'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['label'] = 'CharCode';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['label'] = 'CharCode (field_charcode)';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['remember'] = FALSE;
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['group_items'] = array(
+  1 => array(),
+  2 => array(),
+  3 => array(),
+);
+
+/* Display: Таблица */
+$handler = $view->new_display('page', 'Таблица', 'page');
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'Курсы валют';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'table';
+$handler->display->display_options['style_options']['grouping'] = array(
+  0 => array(
+    'field' => 'field_date',
+    'rendered' => 1,
+    'rendered_strip' => 0,
+  ),
+);
+$handler->display->display_options['style_options']['columns'] = array(
+  'title' => 'title',
+  'field_currency_rates' => 'field_currency_rates',
+  'field_date' => 'field_date',
+  'field_charcode' => 'field_charcode',
+  'field_value' => 'field_value',
+  'field_currency_name' => 'field_currency_name',
+  'field_nominal' => 'field_nominal',
+);
+$handler->display->display_options['style_options']['class'] = '';
+$handler->display->display_options['style_options']['default'] = '-1';
+$handler->display->display_options['style_options']['info'] = array(
+  'title' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_currency_rates' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_date' => array(
+    'sortable' => 1,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_charcode' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_value' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_currency_name' => array(
+    'sortable' => 1,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_nominal' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+);
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Published status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Date (field_date) */
+$handler->display->display_options['filters']['field_date_value']['id'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['table'] = 'field_data_field_date';
+$handler->display->display_options['filters']['field_date_value']['field'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_date_value']['expose']['operator_id'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['label'] = 'Дата';
+$handler->display->display_options['filters']['field_date_value']['expose']['operator'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['identifier'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_date_value']['form_type'] = 'date_popup';
+$handler->display->display_options['filters']['field_date_value']['year_range'] = '-3:+0';
+/* Filter criterion: Field collection item: CharCode (field_charcode) */
+$handler->display->display_options['filters']['field_charcode_value']['id'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['table'] = 'field_data_field_charcode';
+$handler->display->display_options['filters']['field_charcode_value']['field'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['filters']['field_charcode_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator_id'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['label'] = 'Наименование валюты';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['label'] = 'CharCode (field_charcode)';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['remember'] = FALSE;
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['group_items'] = array(
+  1 => array(),
+  2 => array(),
+  3 => array(),
+);
+$handler->display->display_options['path'] = 'currency/table';
+$handler->display->display_options['menu']['type'] = 'default tab';
+$handler->display->display_options['menu']['title'] = 'Курсы валют';
+$handler->display->display_options['menu']['weight'] = '0';
+$handler->display->display_options['menu']['name'] = 'main-menu';
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+$handler->display->display_options['tab_options']['type'] = 'normal';
+$handler->display->display_options['tab_options']['title'] = 'Курсы валют';
+$handler->display->display_options['tab_options']['weight'] = '0';
+$handler->display->display_options['tab_options']['name'] = 'main-menu';
+
+/* Display: Графики */
+$handler = $view->new_display('page', 'Графики', 'page_1');
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'chart';
+$handler->display->display_options['style_options']['type'] = 'line';
+$handler->display->display_options['style_options']['library'] = '';
+$handler->display->display_options['style_options']['label_field'] = 'field_date';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_date' => 'field_date',
+  'field_value' => 'field_value',
+  'title' => 0,
+  'field_currency_rates' => 0,
+  'field_charcode' => 0,
+  'field_currency_name' => 0,
+  'field_nominal' => 0,
+);
+$handler->display->display_options['style_options']['field_colors'] = array(
+  'title' => '#2f7ed8',
+  'field_currency_rates' => '#0d233a',
+  'field_date' => '#8bbc21',
+  'field_charcode' => '#910000',
+  'field_value' => '#1aadce',
+  'field_currency_name' => '#492970',
+  'field_nominal' => '#f28f43',
+);
+$handler->display->display_options['style_options']['data_labels'] = 'TRUE';
+$handler->display->display_options['style_options']['tooltips'] = 'TRUE';
+$handler->display->display_options['style_options']['width'] = '';
+$handler->display->display_options['style_options']['height'] = '';
+$handler->display->display_options['style_options']['xaxis_labels_rotation'] = '0';
+$handler->display->display_options['style_options']['yaxis_suffix'] = 'руб.';
+$handler->display->display_options['style_options']['yaxis_decimal_count'] = '4';
+$handler->display->display_options['style_options']['yaxis_labels_rotation'] = '0';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['exclude'] = TRUE;
+$handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+$handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+/* Field: Content: Currency Rates */
+$handler->display->display_options['fields']['field_currency_rates']['id'] = 'field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['table'] = 'field_data_field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['field'] = 'field_currency_rates';
+$handler->display->display_options['fields']['field_currency_rates']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_currency_rates']['type'] = 'field_collection_fields';
+$handler->display->display_options['fields']['field_currency_rates']['settings'] = array(
+  'view_mode' => 'full',
+);
+$handler->display->display_options['fields']['field_currency_rates']['delta_offset'] = '0';
+/* Field: Content: Date */
+$handler->display->display_options['fields']['field_date']['id'] = 'field_date';
+$handler->display->display_options['fields']['field_date']['table'] = 'field_data_field_date';
+$handler->display->display_options['fields']['field_date']['field'] = 'field_date';
+$handler->display->display_options['fields']['field_date']['alter']['strip_tags'] = TRUE;
+$handler->display->display_options['fields']['field_date']['settings'] = array(
+  'format_type' => 'charts',
+  'custom_date_format' => 'd-m-Y',
+  'fromto' => 'both',
+  'multiple_number' => '',
+  'multiple_from' => '',
+  'multiple_to' => '',
+  'show_remaining_days' => 0,
+);
+/* Field: Field collection item: CharCode */
+$handler->display->display_options['fields']['field_charcode']['id'] = 'field_charcode';
+$handler->display->display_options['fields']['field_charcode']['table'] = 'field_data_field_charcode';
+$handler->display->display_options['fields']['field_charcode']['field'] = 'field_charcode';
+$handler->display->display_options['fields']['field_charcode']['relationship'] = 'field_currency_rates_value';
+/* Field: Field collection item: Value */
+$handler->display->display_options['fields']['field_value']['id'] = 'field_value';
+$handler->display->display_options['fields']['field_value']['table'] = 'field_data_field_value';
+$handler->display->display_options['fields']['field_value']['field'] = 'field_value';
+$handler->display->display_options['fields']['field_value']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['fields']['field_value']['settings'] = array(
+  'thousand_separator' => '',
+  'decimal_separator' => '.',
+  'scale' => '4',
+  'prefix_suffix' => 1,
+);
+/* Field: Field collection item: Currency Name */
+$handler->display->display_options['fields']['field_currency_name']['id'] = 'field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['table'] = 'field_data_field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['field'] = 'field_currency_name';
+$handler->display->display_options['fields']['field_currency_name']['relationship'] = 'field_currency_rates_value';
+/* Field: Field collection item: Номинал */
+$handler->display->display_options['fields']['field_nominal']['id'] = 'field_nominal';
+$handler->display->display_options['fields']['field_nominal']['table'] = 'field_data_field_nominal';
+$handler->display->display_options['fields']['field_nominal']['field'] = 'field_nominal';
+$handler->display->display_options['fields']['field_nominal']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['fields']['field_nominal']['settings'] = array(
+  'thousand_separator' => '',
+  'prefix_suffix' => 1,
+);
+$handler->display->display_options['defaults']['sorts'] = FALSE;
+/* Sort criterion: Content: Date (field_date) */
+$handler->display->display_options['sorts']['field_date_value']['id'] = 'field_date_value';
+$handler->display->display_options['sorts']['field_date_value']['table'] = 'field_data_field_date';
+$handler->display->display_options['sorts']['field_date_value']['field'] = 'field_date_value';
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Published status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Date (field_date) */
+$handler->display->display_options['filters']['field_date_value']['id'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['table'] = 'field_data_field_date';
+$handler->display->display_options['filters']['field_date_value']['field'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['operator'] = 'between';
+$handler->display->display_options['filters']['field_date_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_date_value']['expose']['operator_id'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['label'] = 'Дата';
+$handler->display->display_options['filters']['field_date_value']['expose']['operator'] = 'field_date_value_op';
+$handler->display->display_options['filters']['field_date_value']['expose']['identifier'] = 'field_date_value';
+$handler->display->display_options['filters']['field_date_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_date_value']['form_type'] = 'date_popup';
+$handler->display->display_options['filters']['field_date_value']['year_range'] = '-3:+0';
+/* Filter criterion: Field collection item: CharCode (field_charcode) */
+$handler->display->display_options['filters']['field_charcode_value']['id'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['table'] = 'field_data_field_charcode';
+$handler->display->display_options['filters']['field_charcode_value']['field'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['relationship'] = 'field_currency_rates_value';
+$handler->display->display_options['filters']['field_charcode_value']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator_id'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['label'] = 'Наименование валюты';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['operator'] = 'field_charcode_value_op';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['expose']['remember_roles'] = array(
+  2 => '2',
+);
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['label'] = 'CharCode (field_charcode)';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['identifier'] = 'field_charcode_value';
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['remember'] = FALSE;
+$handler->display->display_options['filters']['field_charcode_value']['group_info']['group_items'] = array(
+  1 => array(),
+  2 => array(),
+  3 => array(),
+);
+$handler->display->display_options['path'] = 'currency/charts';
+$handler->display->display_options['menu']['type'] = 'tab';
+$handler->display->display_options['menu']['title'] = 'Графики';
+$handler->display->display_options['menu']['weight'] = '5';
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+$handler->display->display_options['tab_options']['type'] = 'tab';
+$handler->display->display_options['tab_options']['title'] = 'Курсы валют';
+$handler->display->display_options['tab_options']['weight'] = '0';
+
+/* Display: Data export */
+$handler = $view->new_display('views_data_export', 'Data export', 'views_data_export_1');
+$handler->display->display_options['pager']['type'] = 'some';
+$handler->display->display_options['style_plugin'] = 'views_data_export_json';
+$handler->display->display_options['style_options']['provide_file'] = 1;
+$handler->display->display_options['style_options']['filename'] = '%timestamp-full.json';
+$handler->display->display_options['style_options']['parent_sort'] = 0;
+$handler->display->display_options['path'] = 'currency/export';
+$handler->display->display_options['displays'] = array(
+  'page' => 'page',
+  'page_1' => 'page_1',
+  'default' => 0,
+);
